@@ -66,10 +66,14 @@ submitBtn.addEventListener("click", function (e) {
     console.log(myLibrary);
 });
 
-const deleteBtn = document.getElementById("delete");
-deleteBtn.onclick = function () {
-    myLibrary.splice(this.id);
-    // myLibrary.some(title: )
+const deleteBtns = document.getElementsByClassName("delete");
+
+for (let i = 0; i < deleteBtns.length; i++) {
+    deleteBtns[i].onclick = function () {
+        const id = this.id;
+        myLibrary.splice(id, 1);
+        displayBooks();
+    }
 }
 
 btn.onclick = function () {
@@ -109,7 +113,9 @@ function displayBooks() {
         cardHeader.appendChild(titleDiv);
 
         const bookDelete = document.createElement("span");
-        bookDelete.innerHTML = `<span id="delete">&times;</span>`
+        bookDelete.innerHTML = `&times;`
+        bookDelete.setAttribute("class", "delete");
+        bookDelete.setAttribute("id", bookId);
         cardHeader.appendChild(bookDelete);
  
         const cardFooter = document.createElement("div");

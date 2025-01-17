@@ -172,11 +172,11 @@ margin-left: 65px;
   margin-left: 55px;
 }
 
-#delete {
+.delete {
 font-size: xx-large;
 font-weight: bolder;
 margin-right: 10px;
-padding: 0;
+
 color: maroon;
 }
 
