@@ -1,5 +1,5 @@
 html {
-  background-color: rgb(49, 44, 40);
+  background-color: rgb(31, 27, 23);
 }
 
 body {
@@ -43,7 +43,7 @@ body {
 .card {
   background-color: #36413e;
   color: rgb(231, 220, 203);
-  border: solid rgb(32, 22, 12) 2px;
+  border: solid rgba(203, 221, 231, 0.308) 2px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
