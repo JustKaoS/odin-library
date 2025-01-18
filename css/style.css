@@ -1,94 +1,10 @@
-/*! HTML5 Boilerplate v9.0.0-RC1 | MIT License | https://html5boilerplate.com/ */
-
-/* main.css 3.0.0 | MIT License | https://github.com/h5bp/main.css#readme */
-/*
- * What follows is the result of much research on cross-browser styling.
- * Credit left inline and big thanks to Nicolas Gallagher, Jonathan Neal,
- * Kroc Camen, and the H5BP dev community and team.
- */
-
-/* ==========================================================================
-   Base styles: opinionated defaults
-   ========================================================================== */
-
 html {
-  color: #222;
-  font-size: 1em;
-  line-height: 1.4;
+  background-color: rgb(49, 44, 40);
 }
-
-/*
- * Remove text-shadow in selection highlight:
- * https://twitter.com/miketaylr/status/12228805301
- *
- * Customize the background color to match your design.
- */
-
-::-moz-selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-::selection {
-  background: #b3d4fc;
-  text-shadow: none;
-}
-
-/*
- * A better looking default horizontal rule
- */
-
-hr {
-  display: block;
-  height: 1px;
-  border: 0;
-  border-top: 1px solid #ccc;
-  margin: 1em 0;
-  padding: 0;
-}
-
-/*
- * Remove the gap between audio, canvas, iframes,
- * images, videos and the bottom of their containers:
- * https://github.com/h5bp/html5-boilerplate/issues/440
- */
-
-audio,
-canvas,
-iframe,
-img,
-svg,
-video {
-  vertical-align: middle;
-}
-
-/*
- * Remove default fieldset styles.
- */
-
-fieldset {
-  border: 0;
-  margin: 0;
-  padding: 0;
-}
-
-/*
- * Allow only vertical resizing of textareas.
- */
-
-textarea {
-  resize: vertical;
-}
-
-/* ==========================================================================
-   Author's custom styles
-   ========================================================================== */
-
-
 
 .body {
-  color: #f7f7ff;
-  background-color: #5d5e60;
+  color: rgb(231, 220, 203);
+
 }
 
 .header {
@@ -98,10 +14,18 @@ textarea {
 }
 
 #myBtn {
+  border-radius: 8px;
   position: absolute;
   width: 100px;
+  height: 40px;
   margin-left: -50px;
   left: 50%;
+  background-color: #36413e;
+  color: rgb(231, 220, 203);
+}
+
+#myBtn:hover {
+  cursor: pointer;
 }
 
 
@@ -116,12 +40,13 @@ textarea {
 
 .card {
   background-color: #36413e;
-  color: rgb(203, 224, 231);
-  border: solid grey 2px;
+  color: rgb(231, 220, 203);
+  border: solid rgb(32, 22, 12) 2px;
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  width: 200px;
+  width: 175px;
+  min-width: 160px;
   margin: 20px;
   border-radius: 10px;
 }
@@ -130,63 +55,89 @@ textarea {
   display: flex;
   flex-flow: row;
   width: 100%;
-  align-items:baseline;
   justify-content: space-between;
   max-height: 30%;
 }
 
-.card-header h3 {
+.titleDiv {
+  display: flex;
+  flex-direction: column;
+  align-content: center;
+}
+
+.card-header h4 {
+  text-align: center;
   padding-top: 0;
   margin-top: 0;
   padding-bottom: 5px;
 
 }
 
-.card-header h2 {
+.card-header h3 {
+  max-width: 103px;
+  text-align: center;
   padding: 0;
   margin-top: 8px;
   margin-bottom: 0;
 }
 
+.delete {
+  font-size: xx-large;
+  font-weight: bolder;
+  margin-right: 10px;
+  color: rgb(145, 57, 57);
+}
+
+.delete:hover {
+  cursor: pointer;
+}
 
 .card-footer {
   width: 100%;
   display: flex;
+  align-items: end;
   justify-content: space-between;
   flex-flow: row;
-
+  margin-bottom: 8px;
 }
 
 .pages {
-margin-left: 65px;
+  margin: 0;
+  padding: 0;
+  margin-left: 10px;
+
 }
 
-.hasRead {
+
+.hasRead  {
+  margin: 0;
+  padding: 0;
   margin-right: 10px;
+  font-size: larger;
+  font-weight: bolder;
 }
 
-.titleDiv {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  margin-left: 55px;
+.hasRead:hover {
+  cursor: pointer;
 }
 
-.delete {
-font-size: xx-large;
-font-weight: bolder;
-margin-right: 10px;
-
-color: maroon;
+#blank {
+  visibility: hidden;
 }
+
+
+
+
+
+
 
 
 /********** MODAL STYLES **********/
 /* The Modal (background) */
 .modal {
-  display: hidden;
-  color: lightgrey;
-  border: 2px solid grey;
+
+  color: rgb(231, 220, 203);
+  border:2px solid rgba(203, 221, 231, 0.308);
   border-radius: 10px;
   padding: 10px;
   position: absolute;
@@ -198,15 +149,26 @@ color: maroon;
   width: 180px;
   height: auto;
   overflow: auto;
-  background-color: rgb(48, 90, 0);
-  background-color: rgb(26, 70, 0);
+  background-color: #36413e;
+}
 
+.modal h3 {
+  margin-top: 10px;
+}
+.modalBackdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(24, 21, 19, 0.9);
 }
 
 /* Modal Content/Box */
 
 .form {
   background-color: #353535;
+  color: rgb(203, 221, 231);
   padding: 3px;
   margin: 2px;
   border: 1px solid #888;
@@ -219,14 +181,7 @@ color: maroon;
   margin: 15px 0px;
 }
 
-.modalBackdrop {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.8);
-}
+
 
 .readBox {
   display: flex;
@@ -234,11 +189,14 @@ color: maroon;
   padding: 0;
 }
 
+.readBox p {
+  margin: 0;
+  padding: 0;
+}
 
-
-
-
-
+#submitBtn {
+  height: 20px;
+}
 
 /* ==========================================================================
    Helper classes
@@ -322,82 +280,3 @@ color: maroon;
    These examples override the primary ('mobile first') styles.
    Modify as content requires.
    ========================================================================== */
-
-@media only screen and (min-width: 35em) {
-  /* Style adjustments for viewports that meet the condition */
-}
-
-@media print,
-(-webkit-min-device-pixel-ratio: 1.25),
-(min-resolution: 1.25dppx),
-(min-resolution: 120dpi) {
-  /* Style adjustments for high resolution devices */
-}
-
-/* ==========================================================================
-   Print styles.
-   Inlined to avoid the additional HTTP request:
-   https://www.phpied.com/delay-loading-your-print-css/
-   ========================================================================== */
-
-@media print {
-
-  *,
-  *::before,
-  *::after {
-    background: #fff !important;
-    color: #000 !important;
-    /* Black prints faster */
-    box-shadow: none !important;
-    text-shadow: none !important;
-  }
-
-  a,
-  a:visited {
-    text-decoration: underline;
-  }
-
-  a[href]::after {
-    content: " (" attr(href) ")";
-  }
-
-  abbr[title]::after {
-    content: " (" attr(title) ")";
-  }
-
-  /*
-   * Don't show links that are fragment identifiers,
-   * or use the `javascript:` pseudo protocol
-   */
-  a[href^="#"]::after,
-  a[href^="javascript:"]::after {
-    content: "";
-  }
-
-  pre {
-    white-space: pre-wrap !important;
-  }
-
-  pre,
-  blockquote {
-    border: 1px solid #999;
-    page-break-inside: avoid;
-  }
-
-  tr,
-  img {
-    page-break-inside: avoid;
-  }
-
-  p,
-  h2,
-  h3 {
-    orphans: 3;
-    widows: 3;
-  }
-
-  h2,
-  h3 {
-    page-break-after: avoid;
-  }
-}
