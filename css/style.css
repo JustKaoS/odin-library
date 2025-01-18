@@ -2,8 +2,9 @@ html {
   background-color: rgb(49, 44, 40);
 }
 
-.body {
+body {
   color: rgb(231, 220, 203);
+
 
 }
 
@@ -33,7 +34,8 @@ html {
 .container {
   display: flex;
   margin-top: 50px;
-  max-width: 1200px;
+  max-width: 1500px;
+  flex-flow: row wrap;
   justify-content: flex-start;
 
 }
@@ -126,16 +128,10 @@ html {
 }
 
 
-
-
-
-
-
-
 /********** MODAL STYLES **********/
 /* The Modal (background) */
 .modal {
-
+display:hidden;
   color: rgb(231, 220, 203);
   border:2px solid rgba(203, 221, 231, 0.308);
   border-radius: 10px;

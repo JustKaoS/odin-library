@@ -26,12 +26,9 @@ function addBookToLibrary() {
     book.pages = parseInt(formPages.value);
     book.hasRead = formRead.checked;
     book.id = generateUniqueId();
-    console.log(book.id);
-    console.log(book.id);
 
     const bookExists = myLibrary.some(existingBook =>
         existingBook.title === book.title);
-
     if (bookExists) {
         alert("This book is already in the library!");
     } else {
@@ -60,7 +57,7 @@ submitBtn.addEventListener("click", function (e) {
 });
 
 
-// adds event listener to library container for click event on delete button
+// adds event listener to library container for click event on delete button and hasRead check
 const bookList = document.querySelector('.container');
 bookList.addEventListener('click', function (e) {
     if (e.target && (e.target.classList.contains('delete') || e.target.classList.contains('hasRead'))) {
@@ -73,7 +70,6 @@ bookList.addEventListener('click', function (e) {
             } else if (e.target.classList.contains('hasRead')) {
                 myLibrary[bookIndex].hasRead = !myLibrary[bookIndex].hasRead;
             }
-
             displayBooks();
         }
     }
