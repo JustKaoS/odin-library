@@ -23,7 +23,7 @@ function addBookToLibrary() {
 
     book.title = formTitle.value;
     book.author = formAuthor.value;
-    book.pages = parseInt(formPages.value);
+    book.pages = formPages.value;
     book.hasRead = formRead.checked;
     book.id = generateUniqueId();
 
@@ -31,6 +31,8 @@ function addBookToLibrary() {
         existingBook.title === book.title);
     if (bookExists) {
         alert("This book is already in the library!");
+    } else if (isNaN(book.pages)) {
+        alert("Please enter Pages as a number.");
     } else {
         myLibrary.push(book);
         console.log(myLibrary);
@@ -54,6 +56,8 @@ submitBtn.addEventListener("click", function (e) {
     formAuthor.value = "";
     formPages.value = "";
     formRead.checked = false;
+    modal.style.display = "none";
+    modalBackdrop.style.display = "none";
 });
 
 
@@ -150,10 +154,8 @@ function displayBooks() {
                 bookPages.setAttribute("class", "pages");
                 bookPages.innerText = value + " Pages";
                 cardFooter.appendChild(bookPages);
-
             }
         }
-
 
         const bookHasRead = document.createElement("p");
         bookHasRead.setAttribute("class", "hasRead");
@@ -168,6 +170,3 @@ function displayBooks() {
     }
 }
 
-
-
-console.log(myLibrary);
