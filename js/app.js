@@ -4,14 +4,16 @@ const btn = document.getElementById("myBtn");
 
 const myLibrary = [];
 
+
 displayBooks();
 
-function Book(title, author, pages, hasRead, id) {
+function Book(title, author, pages, hasRead, id, isbn) {
     this.title = title;
     this.author = author;
     this.pages = pages;
     this.hasRead = hasRead;
     this.id = id;
+    this.isbn = isbn;
 }
 
 function addBookToLibrary() {
@@ -19,13 +21,15 @@ function addBookToLibrary() {
     let formTitle = document.getElementById("formTitle");
     let formAuthor = document.getElementById("formAuthor");
     let formPages = document.getElementById("formPages");
+    let formISBN = document.getElementById("formISBN");
     let formRead = document.getElementById("formRead");
 
     book.title = formTitle.value;
     book.author = formAuthor.value;
     book.pages = formPages.value;
     book.hasRead = formRead.checked;
-    book.id = generateUniqueId();
+    book.isbn = formISBN.value; // I'm setting the value of book.id to this same value because
+    book.id = formISBN.value;  // it's easier than changing every instance of book.id to book.isbn
 
     const bookExists = myLibrary.some(existingBook =>
         existingBook.title === book.title);
@@ -55,6 +59,7 @@ submitBtn.addEventListener("click", function (e) {
     formTitle.value = "";
     formAuthor.value = "";
     formPages.value = "";
+    formISBN.value = "";
     formRead.checked = false;
     modal.style.display = "none";
     modalBackdrop.style.display = "none";
@@ -128,6 +133,11 @@ function displayBooks() {
         bookDelete.setAttribute("id", book.id);
         cardHeader.appendChild(bookDelete);
 
+        const bookCover = document.createElement("div");
+        bookCover.setAttribute("class", "coverImg");
+        bookCover.setAttribute("id", book.id);
+        card.appendChild(bookCover);
+
         const cardFooter = document.createElement("div");
         cardFooter.setAttribute("class", "card-footer");
         card.appendChild(cardFooter);
@@ -149,6 +159,13 @@ function displayBooks() {
                 bookAuthor.innerText = value;
                 titleDiv.appendChild(bookAuthor);
 
+            // } else if (key === "isbn") {
+            //     const bookCover = document.createElement("img");
+            //     bookCover.innerHTML = `<img src="https://covers.openlibrary.org/b/isbn/number-size.jpg">`
+
+
+            // }
+                
             } else if (key === "pages") {
                 const bookPages = document.createElement("p");
                 bookPages.setAttribute("class", "pages");
