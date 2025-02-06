@@ -105,37 +105,36 @@ class Library {
                 bookHasRead.style.color = "rgb(145, 57, 57)";
             }
             cardFooter.appendChild(bookHasRead);
-        });
 
-        // adds event listener to library container for click event on delete button and hasRead check
-        const bookList = document.querySelector('.container');
-        bookList.addEventListener('click', function (e) {
-            if (e.target && (e.target.classList.contains('delete') || e.target.classList.contains('hasRead'))) {
-                const bookId = e.target.id;
-                const bookIndex = myLibrary.books.findIndex(book => book.id === bookId);
-
-                if (bookIndex !== -1) {
-                    if (e.target.classList.contains('delete')) {
-                        myLibrary.books.splice(bookIndex, 1);
-                        myLibrary.displayBooks();
-                    } else if (e.target.classList.contains('hasRead')) {
-                        const book = myLibrary.books[bookIndex];
-                        book.hasRead = !book.hasRead;
-                        const bookHasRead = e.target;
-                        if (book.hasRead) {
-                            bookHasRead.innerHTML = "&check;";
-                            bookHasRead.style.color = "rgb(83, 139, 83)";
-                        } else {
-                            bookHasRead.innerHTML = "&check;";
-                            bookHasRead.style.color = "rgb(145, 57, 57)";
-                        }
-                    }
-
-                }
-            }
+            bookDelete.addEventListener('click', () => this.deleteBook(book.id));
+            bookHasRead.addEventListener('click', () => this.toggleHasRead(book.id, bookHasRead));
         });
     }
+    deleteBook(bookId) {
+        const bookIndex = this.books.findIndex(book => book.id === bookId);
+        if (bookIndex !== -1) {
+            this.books.splice(bookIndex, 1);
+            this.displayBooks();
+        }
+    }
+
+    toggleHasRead(bookId, bookHasReadEle) {
+        const bookIndex = this.books.findIndex(book => book.id === bookId);
+        if (bookIndex !== -1) {
+            const book = this.books[bookIndex];
+            book.hasRead = !book.hasRead;
+            if (book.hasRead) {
+                bookHasReadEle.innerHTML = "&check;";
+                bookHasReadEle.style.color = "rgb(83, 139, 83)";
+            } else {
+                bookHasReadEle.innerHTML = "&check;";
+                bookHasReadEle.style.color = "rgb(145, 57, 57)";
+            }
+
+        }
+    }
 }
+
 
 
 // generates a random string for book ID's
@@ -150,6 +149,7 @@ const myLibrary = new Library();
 const submitBtn = document.getElementById("submitBtn");
 submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
+
     const formTitle = document.getElementById('formTitle');
     const formAuthor = document.getElementById('formAuthor');
     const formPages = document.getElementById('formPages');
@@ -165,7 +165,7 @@ submitBtn.addEventListener("click", function (e) {
         formISBN.value
     );
     myLibrary.addBook(book);
-
+    myLibrary.displayBooks();
     modal.style.display = "none";
     modalBackdrop.style.display = "none";
 
