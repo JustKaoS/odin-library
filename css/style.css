@@ -47,7 +47,7 @@ body {
   display: flex;
   flex-flow: column;
   justify-content: space-between;
-  width: 175px;
+  width: 250px;
   min-width: 160px;
   margin: 20px;
   border-radius: 10px;
