@@ -2,46 +2,139 @@ const modal = document.getElementById("modal");
 const modalBackdrop = document.getElementById("modalBackdrop");
 const btn = document.getElementById("myBtn");
 
-const myLibrary = [];
 
-
-displayBooks();
-
-function Book(title, author, pages, hasRead, id, isbn) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.hasRead = hasRead;
-    this.id = id;
-    this.isbn = isbn;
+class Book {
+    constructor(title, author, pages, hasRead, id, isbn) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.hasRead = hasRead;
+        this.id = id;
+        this.isbn = isbn;
+    }
 }
 
-function addBookToLibrary() {
-    const book = new Book();
-    let formTitle = document.getElementById("formTitle");
-    let formAuthor = document.getElementById("formAuthor");
-    let formPages = document.getElementById("formPages");
-    let formISBN = document.getElementById("formISBN");
-    let formRead = document.getElementById("formRead");
 
-    book.title = formTitle.value;
-    book.author = formAuthor.value;
-    book.pages = formPages.value;
-    book.hasRead = formRead.checked;
-    book.isbn = formISBN.value; // I'm setting the value of book.id to this same value because
-    book.id = formISBN.value;  // it's easier than changing every instance of book.id to book.isbn
-
-    const bookExists = myLibrary.some(existingBook =>
-        existingBook.title === book.title);
-    if (bookExists) {
-        alert("This book is already in the library!");
-    } else if (isNaN(book.pages)) {
-        alert("Please enter Pages as a number.");
-    } else {
-        myLibrary.push(book);
-        console.log(myLibrary);
+class Library {
+    constructor() {
+        this.books = [];
     }
-    displayBooks();
+    addBook(book) {
+        const bookExists = this.books.some(existingBook => existingBook.title === book.title);
+        if (bookExists) {
+            alert("This book is already in the library!");
+        } else if (isNaN(book.pages)) {
+            alert("Please enter Pages as a number");
+        } else {
+            this.books.push(book);
+            console.log(this.books);
+            this.displayBooks();
+        }
+    }
+    displayBooks() {
+        const container = document.querySelector(".container");
+        container.innerHTML = '';
+        this.books.forEach(book => {
+
+            const card = document.createElement("div");
+            card.setAttribute("class", "card");
+            container.appendChild(card);
+
+            const cardHeader = document.createElement("div");
+            cardHeader.setAttribute("class", "card-header");
+            card.appendChild(cardHeader);
+
+            //this is an invisible div to center the book titles
+            const emptyDiv = document.createElement("div");
+            emptyDiv.innerHTML = `&times;`
+            emptyDiv.setAttribute("class", "delete");
+            emptyDiv.setAttribute("id", "blank");
+            cardHeader.appendChild(emptyDiv);
+
+            const titleDiv = document.createElement("div");
+            titleDiv.setAttribute("class", "titleDiv");
+            cardHeader.appendChild(titleDiv);
+
+            const bookDelete = document.createElement("span");
+            bookDelete.innerHTML = `&times;`
+            bookDelete.setAttribute("class", "delete");
+            bookDelete.setAttribute("id", book.id);
+            cardHeader.appendChild(bookDelete);
+
+            const bookCover = document.createElement("div");
+            bookCover.setAttribute("class", "coverImg");
+            bookCover.setAttribute("id", book.id);
+            card.appendChild(bookCover);
+
+            const cardFooter = document.createElement("div");
+            cardFooter.setAttribute("class", "card-footer");
+            card.appendChild(cardFooter);
+
+            //Loops through each object in myLibrary and displays value of each key to create
+            // the card layout
+            for (const [key, value] of Object.entries(book)) {
+
+                if (key === "title") {
+                    const bookTitle = document.createElement("h3");
+                    bookTitle.setAttribute("class", "title");
+                    bookTitle.innerText = value;
+                    titleDiv.appendChild(bookTitle);
+
+                } else if (key === "author") {
+                    const bookAuthor = document.createElement("h4");
+                    bookAuthor.setAttribute("class", "author");
+                    bookAuthor.innerText = value;
+                    titleDiv.appendChild(bookAuthor);
+
+
+                } else if (key === "pages") {
+                    const bookPages = document.createElement("p");
+                    bookPages.setAttribute("class", "pages");
+                    bookPages.innerText = value + " Pages";
+                    cardFooter.appendChild(bookPages);
+                }
+            }
+
+            const bookHasRead = document.createElement("p");
+            bookHasRead.setAttribute("class", "hasRead");
+            bookHasRead.setAttribute("id", book.id);
+            bookHasRead.innerHTML = "&check;";
+            if (book.hasRead) {
+                bookHasRead.style.color = "rgb(83, 139, 83)";
+            } else {
+                bookHasRead.style.color = "rgb(145, 57, 57)";
+            }
+            cardFooter.appendChild(bookHasRead);
+        });
+
+        // adds event listener to library container for click event on delete button and hasRead check
+        const bookList = document.querySelector('.container');
+        bookList.addEventListener('click', function (e) {
+            if (e.target && (e.target.classList.contains('delete') || e.target.classList.contains('hasRead'))) {
+                const bookId = e.target.id;
+                const bookIndex = myLibrary.books.findIndex(book => book.id === bookId);
+
+                if (bookIndex !== -1) {
+                    if (e.target.classList.contains('delete')) {
+                        myLibrary.books.splice(bookIndex, 1);
+                        myLibrary.displayBooks();
+                    } else if (e.target.classList.contains('hasRead')) {
+                        const book = myLibrary.books[bookIndex];
+                        book.hasRead = !book.hasRead;
+                        const bookHasRead = e.target;
+                        if (book.hasRead) {
+                            bookHasRead.innerHTML = "&check;";
+                            bookHasRead.style.color = "rgb(83, 139, 83)";
+                        } else {
+                            bookHasRead.innerHTML = "&check;";
+                            bookHasRead.style.color = "rgb(145, 57, 57)";
+                        }
+                    }
+
+                }
+            }
+        });
+    }
 }
 
 
@@ -51,40 +144,32 @@ function generateUniqueId() {
 }
 
 
+const myLibrary = new Library();
+
 
 const submitBtn = document.getElementById("submitBtn");
 submitBtn.addEventListener("click", function (e) {
     e.preventDefault();
-    addBookToLibrary();
-    formTitle.value = "";
-    formAuthor.value = "";
-    formPages.value = "";
-    formISBN.value = "";
-    formRead.checked = false;
+    const formTitle = document.getElementById('formTitle');
+    const formAuthor = document.getElementById('formAuthor');
+    const formPages = document.getElementById('formPages');
+    const formRead = document.getElementById('formRead');
+    const formISBN = document.getElementById('formISBN');
+
+    const book = new Book(
+        formTitle.value,
+        formAuthor.value,
+        formPages.value,
+        formRead.checked,
+        generateUniqueId(),
+        formISBN.value
+    );
+    myLibrary.addBook(book);
+
     modal.style.display = "none";
     modalBackdrop.style.display = "none";
+
 });
-
-
-// adds event listener to library container for click event on delete button and hasRead check
-const bookList = document.querySelector('.container');
-bookList.addEventListener('click', function (e) {
-    if (e.target && (e.target.classList.contains('delete') || e.target.classList.contains('hasRead'))) {
-        const bookId = e.target.id;
-        const bookIndex = myLibrary.findIndex(book => book.id === bookId);
-
-        if (bookIndex !== -1) {
-            if (e.target.classList.contains('delete')) {
-                myLibrary.splice(bookIndex, 1);
-            } else if (e.target.classList.contains('hasRead')) {
-                myLibrary[bookIndex].hasRead = !myLibrary[bookIndex].hasRead;
-            }
-            displayBooks();
-        }
-    }
-});
-
-
 
 btn.onclick = function () {
     modal.style.display = "block";
@@ -97,93 +182,94 @@ window.onclick = function (e) {
     if (e.target == modal || e.target == modalBackdrop) {
         modal.style.display = "none";
         modalBackdrop.style.display = "none";
+        form.reset();
     }
 }
 
 
 // Loops through myLibrary and creates a div "card" for each book
 // Would like to add cover images accessing openlibrary api
-function displayBooks() {
-    const container = document.querySelector(".container");
-    container.innerHTML = '';
-    for (const book of myLibrary) {
+// function displayBooks() {
+//     const container = document.querySelector(".container");
+//     container.innerHTML = '';
+//     for (const book of myLibrary) {
 
-        const card = document.createElement("div");
-        card.setAttribute("class", "card");
-        container.appendChild(card);
+//         const card = document.createElement("div");
+//         card.setAttribute("class", "card");
+//         container.appendChild(card);
 
-        const cardHeader = document.createElement("div");
-        cardHeader.setAttribute("class", "card-header");
-        card.appendChild(cardHeader);
+//         const cardHeader = document.createElement("div");
+//         cardHeader.setAttribute("class", "card-header");
+//         card.appendChild(cardHeader);
 
-        //this is an invisible div to center the book titles
-        const emptyDiv = document.createElement("div");
-        emptyDiv.innerHTML = `&times;`
-        emptyDiv.setAttribute("class", "delete");
-        emptyDiv.setAttribute("id", "blank");
-        cardHeader.appendChild(emptyDiv);
+//         //this is an invisible div to center the book titles
+//         const emptyDiv = document.createElement("div");
+//         emptyDiv.innerHTML = `&times;`
+//         emptyDiv.setAttribute("class", "delete");
+//         emptyDiv.setAttribute("id", "blank");
+//         cardHeader.appendChild(emptyDiv);
 
-        const titleDiv = document.createElement("div");
-        titleDiv.setAttribute("class", "titleDiv");
-        cardHeader.appendChild(titleDiv);
+//         const titleDiv = document.createElement("div");
+//         titleDiv.setAttribute("class", "titleDiv");
+//         cardHeader.appendChild(titleDiv);
 
-        const bookDelete = document.createElement("span");
-        bookDelete.innerHTML = `&times;`
-        bookDelete.setAttribute("class", "delete");
-        bookDelete.setAttribute("id", book.id);
-        cardHeader.appendChild(bookDelete);
+//         const bookDelete = document.createElement("span");
+//         bookDelete.innerHTML = `&times;`
+//         bookDelete.setAttribute("class", "delete");
+//         bookDelete.setAttribute("id", book.id);
+//         cardHeader.appendChild(bookDelete);
 
-        const bookCover = document.createElement("div");
-        bookCover.setAttribute("class", "coverImg");
-        bookCover.setAttribute("id", book.id);
-        card.appendChild(bookCover);
+//         const bookCover = document.createElement("div");
+//         bookCover.setAttribute("class", "coverImg");
+//         bookCover.setAttribute("id", book.id);
+//         card.appendChild(bookCover);
 
-        const cardFooter = document.createElement("div");
-        cardFooter.setAttribute("class", "card-footer");
-        card.appendChild(cardFooter);
-
-
-        //Loops through each object in myLibrary and displays value of each key to create
-        // the card layout
-        for (const [key, value] of Object.entries(book)) {
-
-            if (key === "title") {
-                const bookTitle = document.createElement("h3");
-                bookTitle.setAttribute("class", "title");
-                bookTitle.innerText = value;
-                titleDiv.appendChild(bookTitle);
-
-            } else if (key === "author") {
-                const bookAuthor = document.createElement("h4");
-                bookAuthor.setAttribute("class", "author");
-                bookAuthor.innerText = value;
-                titleDiv.appendChild(bookAuthor);
-
-            // } else if (key === "isbn") {
-            //     const bookCover = document.createElement("img");
-            //     bookCover.innerHTML = `<img src="https://covers.openlibrary.org/b/isbn/number-size.jpg">`
+//         const cardFooter = document.createElement("div");
+//         cardFooter.setAttribute("class", "card-footer");
+//         card.appendChild(cardFooter);
 
 
-            // }
-                
-            } else if (key === "pages") {
-                const bookPages = document.createElement("p");
-                bookPages.setAttribute("class", "pages");
-                bookPages.innerText = value + " Pages";
-                cardFooter.appendChild(bookPages);
-            }
-        }
+//         //Loops through each object in myLibrary and displays value of each key to create
+//         // the card layout
+//         for (const [key, value] of Object.entries(book)) {
 
-        const bookHasRead = document.createElement("p");
-        bookHasRead.setAttribute("class", "hasRead");
-        bookHasRead.setAttribute("id", book.id);
-        bookHasRead.innerHTML = "&check;"
-        if (book["hasRead"] == true) {
-            bookHasRead.style.color = "rgb(83, 139, 83)";
-        } else {
-            bookHasRead.style.color = "rgb(145, 57, 57)";
-        }
-        cardFooter.appendChild(bookHasRead);
-    }
-}
+//             if (key === "title") {
+//                 const bookTitle = document.createElement("h3");
+//                 bookTitle.setAttribute("class", "title");
+//                 bookTitle.innerText = value;
+//                 titleDiv.appendChild(bookTitle);
+
+//             } else if (key === "author") {
+//                 const bookAuthor = document.createElement("h4");
+//                 bookAuthor.setAttribute("class", "author");
+//                 bookAuthor.innerText = value;
+//                 titleDiv.appendChild(bookAuthor);
+
+//                 // } else if (key === "isbn") {
+//                 //     const bookCover = document.createElement("img");
+//                 //     bookCover.innerHTML = `<img src="https://covers.openlibrary.org/b/isbn/number-size.jpg">`
+
+
+//                 // }
+
+//             } else if (key === "pages") {
+//                 const bookPages = document.createElement("p");
+//                 bookPages.setAttribute("class", "pages");
+//                 bookPages.innerText = value + " Pages";
+//                 cardFooter.appendChild(bookPages);
+//             }
+//         }
+
+//         const bookHasRead = document.createElement("p");
+//         bookHasRead.setAttribute("class", "hasRead");
+//         bookHasRead.setAttribute("id", book.id);
+//         bookHasRead.innerHTML = "&check;"
+//         if (book["hasRead"] == true) {
+//             bookHasRead.style.color = "rgb(83, 139, 83)";
+//         } else {
+//             bookHasRead.style.color = "rgb(145, 57, 57)";
+//         }
+//         cardFooter.appendChild(bookHasRead);
+//     }
+// }
 
