@@ -31,6 +31,7 @@ class Library {
             this.displayBooks();
         }
     }
+    
     displayBooks() {
         const container = document.querySelector(".container");
         container.innerHTML = '';
@@ -61,10 +62,9 @@ class Library {
             bookDelete.setAttribute("id", book.id);
             cardHeader.appendChild(bookDelete);
 
-            // const bookCover = document.createElement("div");
-            // bookCover.setAttribute("class", "coverImg");
-            // bookCover.setAttribute("id", book.id);
-            // card.appendChild(bookCover);
+            const cardBody = document.createElement("div");
+            cardBody.setAttribute("class", "cardBody");
+            card.appendChild(cardBody);
 
             const cardFooter = document.createElement("div");
             cardFooter.setAttribute("class", "card-footer");
@@ -93,7 +93,7 @@ class Library {
                     bookCover.src = coverUrl;
                     bookCover.alt = "Book Cover";
                     bookCover.setAttribute("class", "coverImg");
-                    card.appendChild(bookCover);
+                    cardBody.appendChild(bookCover);
 
                 } else if (key === "pages") {
                     const bookPages = document.createElement("p");

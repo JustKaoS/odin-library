@@ -4,6 +4,7 @@ html {
 
 body {
   color: rgb(231, 220, 203);
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 
 
 }
@@ -40,6 +41,10 @@ body {
 
 }
 
+img {
+  border-radius: 10px;
+  border: grey solid 2px;
+}
 .card {
   background-color: #36413e;
   color: rgb(231, 220, 203);
@@ -48,6 +53,7 @@ body {
   flex-flow: column;
   justify-content: space-between;
   width: 250px;
+  height: 400px;
   min-width: 160px;
   margin: 20px;
   border-radius: 10px;
@@ -61,10 +67,18 @@ body {
   max-height: 30%;
 }
 
+.cardBody {
+  justify-content: center;
+  display: flex;
+  width: 100%;
+  max-height: 60%;
+}
+
 .titleDiv {
   display: flex;
   flex-direction: column;
   align-content: center;
+  justify-content: center;
 }
 
 .card-header h4 {
@@ -75,9 +89,11 @@ body {
 
 }
 
+
 .card-header h3 {
   max-width: 103px;
   text-align: center;
+  align-self: center;
   padding: 0;
   margin-top: 8px;
   margin-bottom: 0;
@@ -101,6 +117,7 @@ body {
   justify-content: space-between;
   flex-flow: row;
   margin-bottom: 8px;
+  margin-top: 5px;
 }
 
 .pages {
@@ -111,7 +128,7 @@ body {
 }
 
 
-.hasRead  {
+.hasRead {
   margin: 0;
   padding: 0;
   margin-right: 10px;
@@ -131,9 +148,9 @@ body {
 /********** MODAL STYLES **********/
 /* The Modal (background) */
 .modal {
-display:hidden;
+  display: hidden;
   color: rgb(231, 220, 203);
-  border:2px solid rgba(203, 221, 231, 0.308);
+  border: 2px solid rgba(203, 221, 231, 0.308);
   border-radius: 10px;
   padding: 10px;
   position: absolute;
@@ -151,6 +168,7 @@ display:hidden;
 .modal h3 {
   margin-top: 10px;
 }
+
 .modalBackdrop {
   position: fixed;
   top: 0;
